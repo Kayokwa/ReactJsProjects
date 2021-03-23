@@ -12,33 +12,39 @@ class App extends Component {
   {
     super();
     this.state = {
-
-      myName:'Kayokwa',
       myAppointments:[]
     };
   }
 
   componentDidMount()
   {
-fetch('./data.json')
-.then(response => response.json())
-.then(result =>{
-  const apts = result.map(item =>{
+    fetch('./data.json')
+    .then(response => response.json())
+    .then(result =>{
+    const apts = result.map(item =>{
     return item;
-  });
-  this.setState({myAppointments: apts});
-});
+    });
+    this.setState({myAppointments: apts});
+    });
   }
 
 
   render(){
+
+    const ListItems = this.state.myAppointments.map(item => (
+
+      <div>
+        <div>{item.petName}</div>
+        </div>
+    ));
+
   return (
     <main className="page bg-white" id="petratings">
     <div className="container">
       <div className="row">
         <div className="col-md-12 bg-white">
           <div className="container">
-            {this.state.myName}
+            {ListItems}
             <AddAppointments/>
             <SearchAppointments/>
             <ListAppointments/>
