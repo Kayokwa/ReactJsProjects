@@ -12,7 +12,8 @@ class App extends Component {
   {
     super();
     this.state = {
-      myAppointments:[]
+      myAppointments:[],
+      lastIndex:0
     };
   }
 
@@ -22,6 +23,8 @@ class App extends Component {
     .then(response => response.json())
     .then(result =>{
     const apts = result.map(item =>{
+      item.aptId = this.state.lastIndex;
+      this.setState({lastIndex: this.state.lastIndex+1});
     return item;
     });
     this.setState({myAppointments: apts});
@@ -30,24 +33,15 @@ class App extends Component {
 
 
   render(){
-
-    const ListItems = this.state.myAppointments.map(item => (
-
-      <div>
-        <div>{item.petName}</div>
-        </div>
-    ));
-
   return (
     <main className="page bg-white" id="petratings">
     <div className="container">
       <div className="row">
         <div className="col-md-12 bg-white">
           <div className="container">
-            {ListItems}
             <AddAppointments/>
             <SearchAppointments/>
-            <ListAppointments/>
+            <ListAppointments appointments={this.state.myAppointments}/>
           </div>
         </div>
       </div>
