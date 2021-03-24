@@ -17,6 +17,7 @@ class App extends Component {
       lastIndex:0,
       formDisplay: false,
       orderBy: 'petName',
+      queryText: '',
       orderDir: 'asc'
     };
     this.deleteAppointment = this.deleteAppointment.bind(this);
@@ -92,7 +93,7 @@ class App extends Component {
       order = -1;
     }
 
-    filteredApts.sort((a,b) =>{
+    filteredApts = filteredApts.sort((a,b) =>{
       if(a[this.state.orderBy].toLowerCase() < b[this.state.orderBy].toLowerCase())
       {
         return -1 * order;
@@ -101,7 +102,25 @@ class App extends Component {
       {return 1* order;
       }
 
-    });
+    }).filter(eachItem => 
+      {
+        return(
+          eachItem['petName']
+          .toLowerCase()
+          .includes(this.state.queryText.toLowerCase()) ||
+
+          eachItem['ownerName']
+          .toLowerCase()
+          .includes(this.state.queryText.toLowerCase()) ||
+
+          eachItem['aptNotes']
+          .toLowerCase()
+          .includes(this.state.queryText.toLowerCase())
+
+        );
+
+
+      });
 
   return (
     <main className="page bg-white" id="petratings">
